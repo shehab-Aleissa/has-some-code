@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
+import GridView from "react-native-super-grid";
 
 import { Col, Row, Grid } from "react-native-easy-grid";
 import {
@@ -35,55 +36,24 @@ class PostsPage extends React.Component {
       fontSize: 25
     }
   };
-  render() {
+
+  componentDidMount() {
     const { navigation } = this.props;
 
-    const the_id = navigation.getParam("brand_id");
+    const brand_id = navigation.getParam("brand_id");
 
-    store.getBrandPost(the_id);
-
-    if (!store.specificBrandPost)
+    store.getBrandPost(brand_id);
+  }
+  render() {
+    if (!store.specificBrandPost) {
       return (
         <View>
           <Text> THERE IS NONE OR LOADING </Text>
         </View>
       );
+    }
     // console.log(store.specificBrandPost);
-    const posts = store.specificBrandPost.map(post => (
-      <TouchableOpacity
-        key={post.id}
-        onPress={() => this.props.navigation.navigate("DetailPage")}
-      >
-        <Card style={{ height: 300 }}>
-          <CardItem cardBody />
-          {post.img ? (
-            <Image style={styles.cardImg} source={{ uri: post.img }} />
-          ) : (
-            <Image
-              style={styles.cardImg}
-              source={require("../assets/mercedes.jpeg")}
-            />
-          )}
-          <CardItem style={{ backgroundColor: "rgb(14, 23, 32)" }}>
-            <Body>
-              <Text style={styles.textStyle}>
-                {post.title}{" "}
-                <Text style={styles.yearStyle}>{post.year_of_made}</Text>
-              </Text>
-              <Text style={styles.priceStyle}>{post.price} KD</Text>
-            </Body>
-            <Right style={{ paddingLeft: 35 }}>
-              <Button
-                style={styles.buttonStyle}
-                onPress={() => this.props.navigation.navigate("DetailPage")}
-              >
-                <Text style={styles.buttonTextStyle}>Details</Text>
-              </Button>
-            </Right>
-          </CardItem>
-        </Card>
-      </TouchableOpacity>
-    ));
+    const posts = store.specificBrandPost.map(post => post);
 
     return (
       <Grid>
@@ -95,10 +65,59 @@ class PostsPage extends React.Component {
             />
           </Right>
         </Header>
-        <Row size={9} style={styles.pageStyle}>
-          <ScrollView>
-            <Col>{posts}</Col>
-          </ScrollView>
+        <Row size={8} style={styles.pageStyle}>
+          <GridView
+            itemDimension={120}
+            spacing={5}
+            items={posts}
+            renderItem={item => (
+              <TouchableOpacity
+                key={item.id}
+                onPress={() =>
+                  this.props.navigation.navigate("DetailPage", {
+                    post_id: item.id
+                  })
+                }
+              >
+                <Card style={styles.cardStyle}>
+                  <CardItem cardBody />
+                  {item.img ? (
+                    <Image style={styles.cardImg} source={{ uri: item.img }} />
+                  ) : (
+                    <Image
+                      style={styles.cardImg}
+                      source={require("../assets/mercedes.jpeg")}
+                    />
+                  )}
+                  <CardItem
+                    style={{
+                      backgroundColor: "rgb(14, 23, 32)"
+                    }}
+                  >
+                    <Body>
+                      <Text numberOfLines={1} style={styles.textStyle}>
+                        {item.title}
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row"
+                        }}
+                      >
+                        <Left>
+                          <Text style={styles.priceStyle}>{item.price} KD</Text>
+                        </Left>
+                        <Right>
+                          <Button style={styles.buttonStyle}>
+                            <Text style={styles.buttonTextStyle}>Details</Text>
+                          </Button>
+                        </Right>
+                      </View>
+                    </Body>
+                  </CardItem>
+                </Card>
+              </TouchableOpacity>
+            )}
+          />
         </Row>
         <Row size={1} style={{ backgroundColor: "pink" }} />
       </Grid>
@@ -111,7 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(14, 23, 32)"
   },
   cardStyle: {
-    backgroundColor: "transparent"
+    height: 200
   },
   cardImg: {
     height: "100%",
@@ -121,27 +140,24 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontFamily: "GTWalsheim-Medium",
-    fontSize: 20
+    fontSize: 15
   },
   priceStyle: {
     color: "rgb(204, 204, 204)",
     fontFamily: "GTWalsheim-Medium",
-    fontSize: 20
+    fontSize: 13
   },
   buttonStyle: {
-    height: 30,
-    width: 120,
+    height: 23,
+    width: 65,
     backgroundColor: "transparent",
     borderTopLeftRadius: 90,
-    borderWidth: 2,
-    alignSelf: "center",
-    alignContent: "center",
-    justifyContent: "center",
+    borderWidth: 1,
     borderColor: "rgb(108, 218, 219)"
   },
   buttonTextStyle: {
     fontFamily: "GTWalsheim-Medium",
-    fontSize: 14,
+    fontSize: 9,
     alignContent: "center",
     justifyContent: "center",
     alignSelf: "center",

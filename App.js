@@ -3,6 +3,7 @@ import PostsPage from "./components/postsPage";
 import DetailPage from "./components/detailPage";
 import FirstPage from "./components/firstPage";
 import ChooseBrand from "./components/chooseBrand";
+import RegisterPage from "./components/registerPage";
 import { createStackNavigator } from "react-navigation";
 import { createDrawerNavigator, DrawerItems } from "react-navigation";
 import {
@@ -77,8 +78,10 @@ const CustomDrawerComponent = props => (
 );
 const AppDrawerNavigatior = createDrawerNavigator(
   {
-    ChooseBrand: ChooseBrand,
     FirstPage: FirstPage,
+
+    RegisterPage: RegisterPage,
+    ChooseBrand: ChooseBrand,
     PostPage: PostsPage,
     DetailPage: DetailPage
   },

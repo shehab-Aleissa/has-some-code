@@ -7,17 +7,20 @@ class Store {
     this.sellingBrands = null;
     this.filteredBrands = null;
     this.theQuery = "";
-    this.specificBrandPost = {};
+    this.specificBrandPost = null;
+    this.postDetail = null;
+    this.latestPosts = null;
+    this.mostViewed = null;
   }
   // GETS ALL THE POSTS IN THE DATABASE
   // getSellingPosts() {
   //   axios
-  //     .get("http://127.0.0.1:8000/posts/")
+  //     .get("http://192.168.1.35:8000/posts/")
   //     .then(res => (this.sellingPosts = res.data));
   // }
   // GETS ALL THE BRANDS AVAILABLE IN THE DATABASE
   getBrands() {
-    axios.get("http://127.0.0.1:8000/selling/brands/").then(res => {
+    axios.get("http://192.168.1.35:8000/selling/brands/").then(res => {
       this.sellingBrands = res.data;
       this.filteredBrands = res.data;
     });
@@ -25,8 +28,38 @@ class Store {
 
   // GETS THE POST RELATED TO A SPECIFIC CAR BRAND
   getBrandPost(id) {
-    const brandPost = this.sellingBrands.find(posts => +posts.id === +id);
-    this.specificBrandPost = brandPost;
+    axios
+      .get(`http://192.168.1.35:8000/brand/posts/` + id)
+      .then(res => (this.specificBrandPost = res.data))
+      .catch(err => console.error(err));
+  }
+
+  // GETS THE POST DETAIL
+  getPostDetail(id) {
+    const thePostDetail = this.specificBrandPost.find(
+      posts => +posts.id === +id,
+
+      // INCREASE THE NUMBER OF HOW MANY TIMES THE POST HAVE BEEN WATCHED
+      axios
+        .post(`http://192.168.1.35:8000/post/views/` + id)
+        .then(() => console.log("DONE"))
+    );
+    return thePostDetail;
+  }
+
+  // GETS THE LATEST 5 POSTS
+  getLatestPosts() {
+    axios
+      .get("http://192.168.1.35:8000/latest/posts/")
+      .then(res => (this.latestPosts = res.data))
+      .catch(err => console.error(err));
+  }
+
+  getMostViewed() {
+    axios
+      .get("http://192.168.1.35:8000/most/viewed/posts/")
+      .then(res => (this.mostViewed = res.data))
+      .catch(err => console.error(err));
   }
 
   // #####################################SEARCH BRANDS##########################################
@@ -51,11 +84,18 @@ decorate(Store, {
   onSearchBrandChangeHandler: action,
   changeBrandValue: action,
   specificBrandPost: observable,
-  getBrandPost: action
+  getBrandPost: action,
+  postDetail: observable,
+  getPostDetail: action,
+  latestPosts: observable,
+  mostViewed: observable,
+  getLatestPosts: action,
+  getMostViewed: action
 });
 
 const store = new Store();
-// store.getSellingPosts();
+store.getLatestPosts();
+store.getMostViewed();
 store.getBrands();
 
 export default store;

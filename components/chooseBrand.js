@@ -28,7 +28,14 @@ import TheSpinner from "./spinner";
 class ChooseBrand extends React.Component {
   render() {
     if (store.filteredBrands) {
-      const items = store.filteredBrands.map(item => item);
+      const items = store.filteredBrands
+        .slice()
+        .sort(function(a, b) {
+          var textA = a.name.toUpperCase();
+          var textB = b.name.toUpperCase();
+          return textA < textB ? -1 : textA > textB ? 1 : 0;
+        })
+        .map(item => item);
 
       return (
         <Grid>
@@ -53,7 +60,11 @@ class ChooseBrand extends React.Component {
               items={items}
               renderItem={item => (
                 <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate("PostPage")}
+                  onPress={() =>
+                    this.props.navigation.navigate("PostPage", {
+                      brand_id: item.id
+                    })
+                  }
                 >
                   <View style={styles.itemContainer}>
                     <Image
