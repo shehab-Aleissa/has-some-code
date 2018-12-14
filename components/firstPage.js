@@ -14,7 +14,13 @@ import {
   Right,
   Left
 } from "native-base";
-import { StyleSheet, View, Image, TouchableHighlight } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableHighlight,
+  TouchableOpacity
+} from "react-native";
 import store from "../store/store";
 import { observer } from "mobx-react";
 import { ScrollView } from "react-native-gesture-handler";
@@ -36,81 +42,86 @@ class FirstPage extends React.Component {
       );
     }
     const latest = store.latestPosts.map(post => (
-      <Card style={styles.cardStyle} key={post.id}>
-        <CardItem cardBody />
-        {post.img ? (
-          <Image style={styles.cardImg} source={{ uri: post.img }} />
-        ) : (
-          <Image
-            style={styles.cardImg}
-            source={require("../assets/mercedes.jpeg")}
-          />
-        )}
-        <CardItem
-          style={{
-            backgroundColor: "rgb(14, 23, 32)"
-          }}
-        >
-          <Body>
-            <Text numberOfLines={1} style={styles.textStyle}>
-              {post.title}
-            </Text>
-            <View
-              style={{
-                flexDirection: "row"
-              }}
-            >
-              <Left>
-                <Text style={styles.priceStyle}>{post.price} KD</Text>
-              </Left>
-              <Right>
-                <Button style={styles.blueButtonStyle}>
-                  <Text style={styles.buttonTextStyle}>Details</Text>
-                </Button>
-              </Right>
-            </View>
-          </Body>
-        </CardItem>
-      </Card>
+      <TouchableOpacity key={post.id}>
+        <Card style={styles.cardStyle}>
+          <CardItem cardBody />
+          {post.img ? (
+            <Image style={styles.cardImg} source={{ uri: post.img }} />
+          ) : (
+            <Image
+              style={styles.cardImg}
+              source={require("../assets/mercedes.jpeg")}
+            />
+          )}
+          <CardItem
+            style={{
+              backgroundColor: "rgb(14, 23, 32)"
+            }}
+          >
+            <Body>
+              <Text style={styles.textStyle}>
+                {post.brand.name} {post.brand_class.name}
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: "row"
+                }}
+              >
+                <Left>
+                  <Text style={styles.priceStyle}>{post.price} KD</Text>
+                </Left>
+                <Right>
+                  <Button style={styles.blueButtonStyle}>
+                    <Text style={styles.buttonTextStyle}>Details</Text>
+                  </Button>
+                </Right>
+              </View>
+            </Body>
+          </CardItem>
+        </Card>
+      </TouchableOpacity>
     ));
 
     const mostViewed = store.mostViewed.map(post => (
-      <Card style={styles.cardStyle} key={post.id}>
-        <CardItem cardBody />
-        {post.img ? (
-          <Image style={styles.cardImg} source={{ uri: post.img }} />
-        ) : (
-          <Image
-            style={styles.cardImg}
-            source={require("../assets/mercedes.jpeg")}
-          />
-        )}
-        <CardItem
-          style={{
-            backgroundColor: "rgb(14, 23, 32)"
-          }}
-        >
-          <Body>
-            <Text numberOfLines={1} style={styles.textStyle}>
-              {post.title}
-            </Text>
-            <View
-              style={{
-                flexDirection: "row"
-              }}
-            >
-              <Left>
-                <Text style={styles.priceStyle}>{post.price} KD</Text>
-              </Left>
-              <Right>
-                <Button style={styles.blueButtonStyle}>
-                  <Text style={styles.buttonTextStyle}>Details</Text>
-                </Button>
-              </Right>
-            </View>
-          </Body>
-        </CardItem>
-      </Card>
+      <TouchableOpacity key={post.id}>
+        <Card style={styles.cardStyle}>
+          <CardItem cardBody />
+          {post.img ? (
+            <Image style={styles.cardImg} source={{ uri: post.img }} />
+          ) : (
+            <Image
+              style={styles.cardImg}
+              source={require("../assets/mercedes.jpeg")}
+            />
+          )}
+          <CardItem
+            style={{
+              backgroundColor: "rgb(14, 23, 32)"
+            }}
+          >
+            <Body>
+              <Text numberOfLines={1} style={styles.textStyle}>
+                {post.brand.name} {post.brand_class.name}
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row"
+                }}
+              >
+                <Left>
+                  <Text style={styles.priceStyle}>{post.price} KD</Text>
+                </Left>
+                <Right>
+                  <Button style={styles.blueButtonStyle}>
+                    <Text style={styles.buttonTextStyle}>Details</Text>
+                  </Button>
+                </Right>
+              </View>
+            </Body>
+          </CardItem>
+        </Card>
+      </TouchableOpacity>
     ));
 
     return (
@@ -131,7 +142,7 @@ class FirstPage extends React.Component {
             >
               <Icon type="FontAwesome" name="car" style={styles.iconStyle} />
               <Text style={styles.iconTextStyle}>Find a Car</Text>
-            </Button>{" "}
+            </Button>
           </Row>
           <Row size={2.5} style={{ backgroundColor: "rgb(14, 23, 32)" }}>
             <Image

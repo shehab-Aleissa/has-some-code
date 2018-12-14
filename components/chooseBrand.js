@@ -61,7 +61,7 @@ class ChooseBrand extends React.Component {
               renderItem={item => (
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.navigation.navigate("PostPage", {
+                    this.props.navigation.navigate("PostsPage", {
                       brand_id: item.id
                     })
                   }
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   itemImage: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     justifyContent: "center",
     alignContent: "center"
   }

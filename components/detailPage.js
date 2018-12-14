@@ -76,7 +76,7 @@ class DetailPage extends Component {
               />
             </View>
           </TouchableOpacity>
-          https://wa.me/
+
           <TouchableOpacity
             onPress={() =>
               Linking.openURL("https://wa.me/965" + thePost.extra_phone_number)

@@ -1,4 +1,5 @@
 import React from "react";
+import Posting from "./components/postingPage";
 import PostsPage from "./components/postsPage";
 import DetailPage from "./components/detailPage";
 import FirstPage from "./components/firstPage";
@@ -15,6 +16,8 @@ import {
   View
 } from "react-native";
 import { Spinner } from "native-base";
+import postingPage from "./components/postingPage";
+import choosingOffers from "./components/choosingOffers";
 
 export default class App extends React.Component {
   // static navigationOptions = {
@@ -31,7 +34,10 @@ export default class App extends React.Component {
     try {
       await Expo.Font.loadAsync({
         "GTWalsheim-Medium": require("./assets/fonts/GT-Walsheim-Medium.ttf"),
-        "GTWalsheim-Black": require("./assets/fonts/GT-Walsheim-Black.ttf")
+        "GTWalsheim-Black": require("./assets/fonts/GT-Walsheim-Black.ttf"),
+        Roboto: require("native-base/Fonts/Roboto.ttf"),
+        Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+        Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
       });
       this.setState({ fontLoaded: true });
       console.log("fonts are loaded");
@@ -50,7 +56,7 @@ export default class App extends React.Component {
 }
 const AppStackNavigatior = createStackNavigator(
   {
-    PostPage: PostsPage,
+    PostPage: postingPage,
     ChooseBrand: ChooseBrand,
     DetailPage: DetailPage,
     FirstPage: FirstPage
@@ -79,10 +85,13 @@ const CustomDrawerComponent = props => (
 const AppDrawerNavigatior = createDrawerNavigator(
   {
     FirstPage: FirstPage,
+    PostingPage: Posting,
+    ChoosingOffers: choosingOffers,
+
+    ChooseBrand: ChooseBrand,
 
     RegisterPage: RegisterPage,
-    ChooseBrand: ChooseBrand,
-    PostPage: PostsPage,
+    PostsPage: PostsPage,
     DetailPage: DetailPage
   },
   {
