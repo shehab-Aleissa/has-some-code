@@ -32,7 +32,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import TheSpinner from "./spinner";
 import ImagePicker from "./imagePicker";
 
-class Posting extends React.Component {
+class PostingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -183,4 +183,4 @@ class Posting extends React.Component {
     );
   }
 }
-export default observer(Posting);
+export default observer(PostingPage);

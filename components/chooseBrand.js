@@ -39,9 +39,7 @@ class ChooseBrand extends React.Component {
 
       return (
         <Grid>
-          <Row size={1} />
-
-          <Row size={1} style={styles.searchRowStyle}>
+          <Row size={1.5} style={styles.searchRowStyle}>
             <Content style={{ paddingTop: 10 }}>
               <Item rounded>
                 <Input
@@ -54,7 +52,7 @@ class ChooseBrand extends React.Component {
             </Content>
           </Row>
 
-          <Row size={7} style={styles.rowStyle}>
+          <Row size={8.5} style={styles.rowStyle}>
             <GridView
               itemDimension={70}
               items={items}
@@ -77,8 +75,6 @@ class ChooseBrand extends React.Component {
               )}
             />
           </Row>
-
-          <Row size={1} />
         </Grid>
       );
     } else {

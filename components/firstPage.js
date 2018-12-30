@@ -10,16 +10,21 @@ import {
   Text,
   Body,
   Button,
-  Icon,
   Right,
+  Icon,
   Left
 } from "native-base";
+
+// import { Icon } from "react-native-elements";
 import {
   StyleSheet,
   View,
   Image,
   TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert,
+  ImageBackground
+  // Icon
 } from "react-native";
 import store from "../store/store";
 import { observer } from "mobx-react";
@@ -41,12 +46,58 @@ class FirstPage extends React.Component {
         </View>
       );
     }
+
+    const more = (
+      <TouchableOpacity>
+        <Card style={styles.cardStyle}>
+          <CardItem cardBody />
+          <ImageBackground
+            style={styles.cardImg}
+            source={require("../assets/mercedes.jpeg")}
+          />
+
+          <CardItem style={{ backgroundColor: "rgb(14, 23, 32)" }}>
+            <Body>
+              <Text style={styles.moreTextStyle}>BMW m5</Text>
+
+              <View style={{ flexDirection: "row" }}>
+                <Left>
+                  <Text style={styles.morePriceStyle}>18000 KD</Text>
+                </Left>
+                <Right>
+                  <Button style={styles.blueButtonStyle}>
+                    <Text style={styles.buttonTextStyle}>Details</Text>
+                  </Button>
+                </Right>
+              </View>
+            </Body>
+          </CardItem>
+          <View style={styles.overlay}>
+            <Image
+              source={require("../assets/add-rounded.png")}
+              style={{
+                width: "30%",
+                height: "30%",
+                tintColor: "white",
+                position: "absolute",
+                top: 55,
+                right: 55,
+                bottom: 0,
+                left: 55
+              }}
+              size={150}
+            />
+          </View>
+        </Card>
+      </TouchableOpacity>
+    );
+
     const latest = store.latestPosts.map(post => (
       <TouchableOpacity key={post.id}>
         <Card style={styles.cardStyle}>
           <CardItem cardBody />
-          {post.img ? (
-            <Image style={styles.cardImg} source={{ uri: post.img }} />
+          {post.img0 ? (
+            <Image style={styles.cardImg} source={{ uri: post.img0 }} />
           ) : (
             <Image
               style={styles.cardImg}
@@ -60,7 +111,7 @@ class FirstPage extends React.Component {
           >
             <Body>
               <Text style={styles.textStyle}>
-                {post.brand.name} {post.brand_class.name}
+                {post.brand.name} {post.brand.name}
               </Text>
 
               <View
@@ -87,8 +138,8 @@ class FirstPage extends React.Component {
       <TouchableOpacity key={post.id}>
         <Card style={styles.cardStyle}>
           <CardItem cardBody />
-          {post.img ? (
-            <Image style={styles.cardImg} source={{ uri: post.img }} />
+          {post.img0 ? (
+            <Image style={styles.cardImg} source={{ uri: post.img0 }} />
           ) : (
             <Image
               style={styles.cardImg}
@@ -102,7 +153,7 @@ class FirstPage extends React.Component {
           >
             <Body>
               <Text numberOfLines={1} style={styles.textStyle}>
-                {post.brand.name} {post.brand_class.name}
+                {post.brand.name} {post.brand.name}
               </Text>
               <View
                 style={{
@@ -127,13 +178,6 @@ class FirstPage extends React.Component {
     return (
       <Grid style={styles.pageStyle}>
         <ScrollView>
-          <Header
-            style={{
-              backgroundColor: "rgb(14, 23, 32)",
-              borderBottomColor: "transparent"
-            }}
-          />
-
           <Row size={0.5} style={styles.rowContainer}>
             <Button
               transparent
@@ -144,7 +188,7 @@ class FirstPage extends React.Component {
               <Text style={styles.iconTextStyle}>Find a Car</Text>
             </Button>
           </Row>
-          <Row size={2.5} style={{ backgroundColor: "rgb(14, 23, 32)" }}>
+          <Row size={3} style={{ backgroundColor: "rgb(14, 23, 32)" }}>
             <Image
               source={require("../assets/mustang-wallpaper.jpeg")}
               style={{ height: 200, width: null, flex: 1 }}
@@ -152,29 +196,31 @@ class FirstPage extends React.Component {
           </Row>
 
           <Row size={0.5}>
-            <Text style={styles.headerStyle}>Latest</Text>
+            <TouchableHighlight>
+              <Text style={styles.headerStyle}>Latest</Text>
+            </TouchableHighlight>
           </Row>
-          <Row size={2.5} style={{ backgroundColor: "rgb(14, 23, 32)" }}>
+          <Row size={3} style={{ backgroundColor: "rgb(14, 23, 32)" }}>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             >
               {latest}
+              {more}
             </ScrollView>
           </Row>
           <Row size={0.5}>
             <Text style={styles.headerStyle}>Top Viewed</Text>
           </Row>
-          <Row size={2.5} style={{ backgroundColor: "rgb(14, 23, 32)" }}>
+          <Row size={3} style={{ backgroundColor: "rgb(14, 23, 32)" }}>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             >
               {mostViewed}
+              {more}
             </ScrollView>
           </Row>
-
-          <Row size={1} style={{ backgroundColor: "rgb(14, 23, 32)" }} />
         </ScrollView>
       </Grid>
     );
@@ -214,7 +260,17 @@ const styles = StyleSheet.create({
   cardImg: {
     height: "100%",
     width: "100%",
-    flex: 1
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, .9)"
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: "black",
+    opacity: 0.7
   },
   textStyle: {
     color: "white",
@@ -255,6 +311,25 @@ const styles = StyleSheet.create({
     fontFamily: "GTWalsheim-Medium",
     fontSize: 22,
     paddingLeft: 10
+  },
+  moreCardStyle: {
+    height: 100,
+    width: 100
+  },
+  moreCardImg: {
+    height: "100%",
+    width: "100%",
+    flex: 1
+  },
+  moreTextStyle: {
+    color: "grey",
+    fontFamily: "GTWalsheim-Medium",
+    fontSize: 15
+  },
+  morePriceStyle: {
+    color: "grey",
+    fontFamily: "GTWalsheim-Medium",
+    fontSize: 13
   }
 });
 export default observer(FirstPage);

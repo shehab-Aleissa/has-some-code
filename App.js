@@ -1,5 +1,5 @@
 import React from "react";
-import Posting from "./components/postingPage";
+import PostingPage from "./components/postingPage";
 import PostsPage from "./components/postsPage";
 import DetailPage from "./components/detailPage";
 import FirstPage from "./components/firstPage";
@@ -18,6 +18,8 @@ import {
 import { Spinner } from "native-base";
 import postingPage from "./components/postingPage";
 import choosingOffers from "./components/choosingOffers";
+
+import RootStack, { Tabs, Drawer } from "./router/router";
 
 export default class App extends React.Component {
   // static navigationOptions = {
@@ -48,56 +50,56 @@ export default class App extends React.Component {
   render() {
     if (this.state.fontLoaded) {
       console.log("fonts loaded: ", this.state.fontLoaded);
-      return <AppDrawerNavigatior />;
+      return <RootStack />;
     } else {
       return <Spinner />;
     }
   }
 }
-const AppStackNavigatior = createStackNavigator(
-  {
-    PostPage: postingPage,
-    ChooseBrand: ChooseBrand,
-    DetailPage: DetailPage,
-    FirstPage: FirstPage
-  },
+// const AppStackNavigatior = createStackNavigator(
+//   {
+//     FirstPage: FirstPage,
+//     PostPage: postingPage,
+//     ChooseBrand: ChooseBrand,
+//     DetailPage: DetailPage
+//   },
 
-  {
-    navigationOptions: {
-      headerTintColor: "rgb(108, 218, 219)",
-      headerStyle: {
-        backgroundColor: "rgb(14, 23, 32)"
-      },
-      headerTextStyle: {
-        fontFamily: "GTWalsheim-Medium",
-        fontWeight: "bold"
-      }
-    }
-  }
-);
-const CustomDrawerComponent = props => (
-  <SafeAreaView style={{ flex: 1 }}>
-    <ScrollView>
-      <DrawerItems {...props} />
-    </ScrollView>
-  </SafeAreaView>
-);
-const AppDrawerNavigatior = createDrawerNavigator(
-  {
-    FirstPage: FirstPage,
-    PostingPage: Posting,
-    ChoosingOffers: choosingOffers,
+//   {
+//     navigationOptions: {
+//       headerTintColor: "rgb(108, 218, 219)",
+//       headerStyle: {
+//         backgroundColor: "rgb(14, 23, 32)"
+//       },
+//       headerTextStyle: {
+//         fontFamily: "GTWalsheim-Medium",
+//         fontWeight: "bold"
+//       }
+//     }
+//   }
+// );
+// const CustomDrawerComponent = props => (
+//   <SafeAreaView style={{ flex: 1 }}>
+//     <ScrollView>
+//       <DrawerItems {...props} />
+//     </ScrollView>
+//   </SafeAreaView>
+// );
+// const AppDrawerNavigatior = createDrawerNavigator(
+//   {
+//     FirstPage: FirstPage,
+//     PostingPage: PostingPage,
+//     ChoosingOffers: choosingOffers,
 
-    ChooseBrand: ChooseBrand,
+//     ChooseBrand: ChooseBrand,
 
-    RegisterPage: RegisterPage,
-    PostsPage: PostsPage,
-    DetailPage: DetailPage
-  },
-  {
-    contentComponent: CustomDrawerComponent
-  }
-);
+//     RegisterPage: RegisterPage,
+//     PostsPage: PostsPage,
+//     DetailPage: DetailPage
+//   },
+//   {
+//     contentComponent: CustomDrawerComponent
+//   }
+// );
 const styles = StyleSheet.create({
   container: {
     flex: 1,
